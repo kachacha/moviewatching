@@ -29,7 +29,7 @@ def runningpage(m_id_n):
     if sear_data == {}:
         return render_template("error.html")
     else:
-        api = 'http://api.xfsub.com/index.php?url='
+        api = 'http://www.sfsft.com/video.php?url='
         url = sear_data['m_href'].split('#')[0]
         print(url)
         target = api + url
