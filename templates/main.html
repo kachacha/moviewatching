@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>搜索</title>
+</head>
+<body>
+<!--{% macro input(name="",value="",type="text") %}-->
+<!--<input name="{{ uuuname }}" value="{{ uuuname }}" type="{{ type }}">-->
+<!--{% endmacro %}-->
+<h1>搜索你要的电影</h1>
+<form action="search" enctype="multipart/form-data" method="post">
+    电影名称：<input name="formname" type="text" value=""/><br>
+    <b>或者（or）</b><br>
+    电影链接：<input name="formid" type="text" value=""/><br>
+    <input type="submit" value="搜索"/>
+    <p></p>
+</form>
+<!--<p><a href="{{ url_for('search') }}">登陆</a></p>-->
+</body>
+</html>
