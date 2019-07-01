@@ -1,3 +1,4 @@
+﻿#!/usr/bin/env python3
 # -*- coding:UTF-8 -*-
 from flask import Flask, request
 from flask import jsonify
@@ -29,7 +30,12 @@ def runningpage(m_id_n):
     if sear_data == {}:
         return render_template("error.html")
     else:
-        api = 'http://www.sfsft.com/video.php?url='
+        # api = 'http://www.sfsft.com/video.php?url='
+        # api = 'http://jx.dy-jx.com/index.php?url='
+        # api = 'http://jx.drgxj.com/g.php?url='
+        # api = 'http://jx.drgxj.com/v/8.php?url='
+        # api = 'http://jx.drgxj.com/?url='
+        api = 'http://jx.dy-jx.com/vip/?url='
         url = sear_data['m_href'].split('#')[0]
         print(url)
         target = api + url

@@ -3,7 +3,7 @@ import urllib.request
 import requests
 from bs4 import BeautifulSoup
 
-headers = {
+aiqiyi_headers = {
     'Accept-Encoding': 'gzip, deflate, br',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
     'Host': 'so.iqiyi.com',
@@ -12,7 +12,7 @@ headers = {
 
 
 def requests_t(url):
-    res = requests.get(url, headers=headers)
+    res = requests.get(url, headers=aiqiyi_headers)
     print(res.status_code)
     if res.status_code == 200:
         return res.text
@@ -20,7 +20,8 @@ def requests_t(url):
         return False
 
 
-def get_url(mname):
+def get_url(typec, mname=None):
+    # return False if not typec else print("come requests .")
     p_data_mname = urllib.request.quote(mname)
     # print(p_data_mname)
     baseUrl = 'https://so.iqiyi.com/so/q_' + p_data_mname + '?source=history&refersource=lib&sr=741573544309'
@@ -31,8 +32,12 @@ def get_url(mname):
         return False
 
 
+def get_tengxun_list(mname):
+    # url https://v.qq.com/x/search/?q=%E6%88%98%E7%8B%BC&stag=0&smartbox_ab=
+    print()
+
 def get_aiqiyi_list(mname):
-    get_date = get_url(mname)
+    get_date = get_url(typec="aiqiyi", mname=mname)
     if not get_date:
         return {'m_date_list': []}
     try:
