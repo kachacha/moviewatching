@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{{ url_for('static', filename='favicon.ico') }}" rel="shortcut icon">
+    <title>列表</title>
+</head>
+<body>
+<h1>这是搜索《{{ m_name }}》的列表</h1>
+<tbody>
+{% for m_one in get_m_list %}
+<tr>
+    <td><a href="{{ url_for('runningpage', m_id_n='')}}{{ m_name }}&&&{{ m_one.m_name }}">{{ m_one.m_name }}</a></td>
+    <br>
+    <!--<td>{{ m_one.name }}</td>-->
+    <td>{{ m_one.m_director_list }}</td>
+    <br>
+    <td>{{ m_one.m_contest }}</td>
+    <br>
+    <!--<td>{{ m_one.length }}</td>-->
+</tr>
+<br>
+{% endfor %}
+</tbody>
+</body>
+</html>
