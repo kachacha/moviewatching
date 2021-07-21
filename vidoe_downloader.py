@@ -30,17 +30,29 @@ def runningpage(m_id_n):
     if sear_data == {}:
         return render_template("error.html")
     else:
-        # api = 'http://www.sfsft.com/video.php?url='
-        # api = 'http://jx.dy-jx.com/index.php?url='
-        # api = 'http://jx.drgxj.com/g.php?url='
-        # api = 'http://jx.drgxj.com/v/8.php?url='
-        # api = 'http://jx.drgxj.com/?url='
-        api = 'http://jx.dy-jx.com/vip/?url='
+        api = 'https://z1.m1907.cn/?jx='
         url = sear_data['m_href'].split('#')[0]
         print(url)
         target = api + url
         context = {
             'title': m_id_n,
+            'target': target
+        }
+        return render_template("runningpage.html", **context)
+
+
+@app.route('/running_url', methods=['POST'])
+def runningPageForUrl():
+    print(request.form['formid'])
+    if request.method == 'GET':
+        return render_template("error.html")
+    else:
+        api = 'https://z1.m1907.cn/?jx='
+        url = request.form['formid']
+        target = api + url
+        print(target)
+        context = {
+            'title': '链接视频',
             'target': target
         }
         return render_template("runningpage.html", **context)
@@ -53,10 +65,8 @@ def main():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
-    if request.method == 'GET':
-        return render_template("list_page.html")
-    elif request.method == 'POST':
-        print(request.form['formname'], request.form['formid'])
+    if request.method == 'POST':
+        print(request.form['formname'])
         get_m_list = get_mo_list.get_aiqiyi_list(request.form['formname'])
         # print(get_m_list)
         context = {
@@ -64,6 +74,8 @@ def search():
             'get_m_list': get_m_list['m_date_list']
         }
         return render_template("list_page.html", **context)
+    else:
+        return render_template("error.html")
 
 
 if __name__ == '__main__':
