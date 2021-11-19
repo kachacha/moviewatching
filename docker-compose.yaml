@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+
+  translate-tool:
+    build:
+      context: .
+    container_name: translate-tool
+    image: registry.zylliondata.local/idsg/translate-tool:1.0.0
+    restart: always
+    ports:
+      - 5000:5000

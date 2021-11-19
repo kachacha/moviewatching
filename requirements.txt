@@ -1,3 +1,11 @@
-flask
+aiohttp
+chardet
+gunicorn
+pymongo
+Flask
+Flask-Cors
+Flask-RESTPlus
+gevent
 requests
 bs4
+PyExecJS

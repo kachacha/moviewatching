@@ -1,0 +1,55 @@
+variables:
+  IMAGE: registry.zylliondata.local/idsg/translate-tool:1.0.0
+
+stages:
+  - pages
+  - edge
+  - build
+  - release
+
+#before_script:
+#- pip3 install --user pytest pytest-cov --upgrade --index-url https://pypi.tuna.tsinghua.edu.cn/simple
+
+#test:
+#  stage: test
+#  script:
+#  - pytest --cov=gdsp_auth_web/ tests/
+
+
+pages:
+  stage: pages
+  script:
+    - pip3.6 install -r requirements.txt --upgrade --user
+    - cd docs
+    - make html
+    - cp -R ./_build/html ../public
+    - ls -alh ../public
+  artifacts:
+    paths:
+      - public
+  only:
+    - "edge"
+
+edge:
+  stage: edge
+  script:
+    - OCP_PROJECT=idsg-edge ENV_FILE=config_edge.env okd-build
+  only:
+    - "edge"
+
+
+build:
+  stage: build
+  script:
+    - OCP_PROJECT=idsg ENV_FILE=config.env okd-build
+  only:
+    - "master"
+
+release:
+  stage: release
+  script:
+    - docker build -t ${IMAGE} .
+    - docker push ${IMAGE}
+    - docker rmi ${IMAGE}
+  only:
+    - "1.0"

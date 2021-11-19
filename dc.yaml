@@ -1,0 +1,47 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: translate-tool
+  labels:
+    app: translate-tool
+spec:
+  template:
+    metadata:
+      labels:
+        app: translate-tool
+    spec:
+      hostname: translate-tool
+      containers:
+        - env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  key: DEFAULT
+                  name: boot-profile
+          image: registry.zylliondata.local/idsg/translate-tool:1.0.0
+          imagePullPolicy: Always
+          name: translate-tool
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+  replicas: 1
+  strategy:
+    type: Rolling
+  paused: false
+  revisionHistoryLimit: 2
+  minReadySeconds: 0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: translate-tool
+  name: translate-tool
+spec:
+  ports:
+    - name: http
+      port: 5273
+      protocol: TCP
+      targetPort: 5000
+  selector:
+    app: translate-tool
