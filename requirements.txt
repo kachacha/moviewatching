@@ -1,11 +1,11 @@
-aiohttp
+aiohttp == 3.8.1
 chardet
 gunicorn
-pymongo
-Flask
-Flask-Cors
-Flask-RESTPlus
+pymongo == 4.0.1
+Flask == 1.1.4
+Flask-Cors == 3.0.10
+Flask-RESTX == 0.5.1
 gevent
 requests
-bs4
+bs4 == 0.0.1
 PyExecJS

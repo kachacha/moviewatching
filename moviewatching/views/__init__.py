@@ -1,6 +1,6 @@
-from flask_restplus import Api
+from flask_restx import Api
 
-from .translate_api import api as translate
+from .search_api import api as search
 
 api = Api(
     title='zfeno - 影视纵览',
@@ -9,4 +9,4 @@ api = Api(
     doc='/debug/'
 )
 
-api.add_namespace(translate, path='/idsg/api/v1')
+api.add_namespace(search, path='/idsg/api/v1')

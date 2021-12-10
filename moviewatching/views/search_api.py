@@ -13,7 +13,7 @@ __update__ = "What you think can be updated and optimized can be written here"
 from enum import Enum, unique
 
 from flask import request, jsonify, make_response
-from flask_restplus import Resource, Namespace, fields
+from flask_restx import Resource, Namespace, fields
 
 from ..config import aiqiyi_base_search_url, aiqiyi_more_search_url, qq_base_search_url, qq_more_search_url, \
     aiqiyi_headers, qq_headers
