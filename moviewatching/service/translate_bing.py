@@ -6,7 +6,7 @@ __email__ = "zhangf@zylliondata.com"
 __status__ = "Development"
 __date__ = "2019-09-23"
 
-from .request_untils import ToolsUntils
+from moviewatching.service.untils.request_utils import ToolsUntils
 
 
 class TranslateBing:
