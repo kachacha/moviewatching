@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 aiqiyi_headers = {
-    'Accept-Encoding': 'gzip, deflate, br',
+    # 'Accept-Encoding': 'gzip, deflate, br',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
     'Host': 'so.iqiyi.com',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36'
@@ -13,6 +13,7 @@ aiqiyi_headers = {
 
 def requests_t(url):
     res = requests.get(url, headers=aiqiyi_headers)
+    print(res.text)
     print(res.status_code)
     if res.status_code == 200:
         return res.text

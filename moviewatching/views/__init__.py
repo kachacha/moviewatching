@@ -9,4 +9,4 @@ api = Api(
     doc='/debug/'
 )
 
-api.add_namespace(search, path='/idsg/api/v1')
+api.add_namespace(search, path='/zfeno-video/api/v1')

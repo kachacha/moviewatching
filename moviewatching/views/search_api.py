@@ -72,8 +72,8 @@ class SearchApi(Resource):
         if not base_url:
             return False
         iqiyi_list = self.crawl.crawl_iqiyi_list(base_url, s_word, headers, page)
-        return {"code": 100, "message": "SUCCESS", "data": iqiyi_list} if iqiyi_list else {"code": -100,
-                                                                                           "message": "fail get search page."}
+        return {"code": 100, "message": "SUCCESS", "data": iqiyi_list} if \
+            iqiyi_list else {"code": -100, "message": "fail get search page."}
 
     @api.expect(SearchModel.post_form_request())
     @api.doc(params={"action": "方法"})

@@ -14,7 +14,7 @@ __update__ = "What you think can be updated and optimized can be written here"
 aiqiyi_base_search_url = "https://so.iqiyi.com/so/q_{0}?source=history&refersource=lib&sr=741573544309"  # 第一页
 aiqiyi_more_search_url = "https://so.iqiyi.com/so/q_{0}_ctg__t_0_page_{1}_p_1_qc_0_rd__site_iqiyi_m_1_bitrate__af_0"  # 第n页
 aiqiyi_headers = {
-    'Accept-Encoding': 'gzip, deflate, br',
+    # 'Accept-Encoding': 'gzip, deflate, br',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
     'Host': 'so.iqiyi.com',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36'
