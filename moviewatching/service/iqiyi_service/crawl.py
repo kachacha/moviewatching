@@ -12,6 +12,7 @@ __update__ = "What you think can be updated and optimized can be written here"
 
 import logging
 import os
+import re
 import sys
 from urllib.parse import quote
 
@@ -28,23 +29,36 @@ class Crawl:
         爬取解析相关
         """
 
-    def crawl_iqiyi_list(self, base_url: str, s_word: str, headers: dict, page=1) -> str:
+    def crawl_iqiyi_list(self, base_url: str, s_word: str, headers: dict, page=1) -> list:
         p_s_word = quote(s_word if s_word else "")
         get_html_res = self.request_util.requests_t(base_url.format(p_s_word, page), headers)
         if not get_html_res:
             get_html_res = self.request_util.urlopen_url(base_url.format(p_s_word, page))
             if not get_html_res:
-                return ""
+                return []
         try:
             get_html_res = BeautifulSoup(get_html_res, 'html5lib')
             layout_main = get_html_res.find('div', class_='layout-main')
             layout_main.find("div", class_='search-container-filter').decompose()
             layout_main.find("div", class_='qy-search-top-tips').decompose()
+            a_list = layout_main.findAll("a")
+            movie_list = []
+            set_href_list = []
+            for _a in a_list:
+                pattern = re.compile(u'www.iqiyi.com/v_[^\s]*.html')
+                href_url = pattern.search(str(_a))
+                if href_url:
+                    if href_url[0] not in set_href_list:
+                        set_href_list.append(href_url[0])
+                        movie_list.append({"uri": href_url[0], "html": str(_a).replace("//" + href_url[0],
+                                                                                       "./play?play_uri=" + href_url[
+                                                                                           0])})
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
-            return ""
-        return str(layout_main)
+            return []
+        # print(movie_list)
+        return movie_list
 
 
 if __name__ == '__main__':
