@@ -50,9 +50,9 @@ class Crawl:
                 if href_url:
                     if href_url[0] not in set_href_list:
                         set_href_list.append(href_url[0])
-                        movie_list.append({"uri": href_url[0], "html": str(_a).replace("//" + href_url[0],
-                                                                                       "./play?play_uri=" + href_url[
-                                                                                           0])})
+                        movie_list.append({"uri": href_url[0],
+                                           "html": str(_a).replace("//" + href_url[0],
+                                                                   "./play?play_uri=" + href_url[0])})
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
