@@ -1,3 +1,14 @@
 
 
 https://z1.m1907.cn/?jx=https://v.qq.com/x/cover/babks6vmrn25n9c.html
+
+
+vips: [
+        {name: "解析1", url: "https://api.sigujx.com/jx/?url=", selected: true},
+        {name: "解析2", url: "http://okjx.cc/?url=", selected: true},
+        {name: "解析3", url: "https://www.administratorw.com/video.php?url=", selected: true},
+        {name: "解析4", url: "https://jx.618g.com/?url=", selected: true},
+        {name: "解析5", url: "http://17kyun.com/api.php?url=", selected: true},
+        {name: "解析6", url: "https://jx.ejiafarm.com/dy.php?url=", selected: true},
+        {name: "解析7", url: "https://www.8090.la/8090/?url=", selected: true}
+    ],

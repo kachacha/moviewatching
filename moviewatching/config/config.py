@@ -7,11 +7,12 @@ class Base:
 
 
 class Development(Base):
-    MONGO_URI = "mongodb://172.25.2.31:27017,172.25.2.31:27017,172.25.2.33:27017"
-    REDIS_HOST = 'localhost'
+    MONGO_URI = "mongodb://127.0.0.1:27017/"
+    # REDIS_HOST = 'localhost'
     # MONGODB_HOST = "172.25.2.33"
     MONGODB_PORT = 27017
     MONGODB_DB = "VideoPlus"
+    MONGODB_TABLE_ANALYSIS_URI = "analysis_uri"
     MONGODB_TABLE_PAGE = "page"
 
 

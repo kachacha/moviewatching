@@ -39,8 +39,8 @@ class RequestsUtils:
         """
 
     @staticmethod
-    def requests_t(url, aiqiyi_headers):
-        res = requests.get(url, headers=aiqiyi_headers)
+    def requests_t(url, _headers):
+        res = requests.get(url, headers=_headers)
         if res.status_code == 200 or res.status_code == 201:
             return res.text
         else:
@@ -64,7 +64,8 @@ class RequestsUtils:
 
     @staticmethod
     def urlopen_url(url: str) -> dict or str:
-        res = urllib.request.urlopen(url).read()
+        res = urllib.request.urlopen(url)
+        print(res.read())
         mychar = chardet.detect(res)
         if res.status_code > 201:
             return None
@@ -77,6 +78,15 @@ class RequestsUtils:
         opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
         response = opener.open(res)
         raw_response = response.read().decode(bianma, errors='ignore')
+        return raw_response
+
+    @staticmethod
+    def urlopen_set_chardet_url(url: str, my_char: str) -> dict or str:
+        res = urllib.request.Request(url)
+        cj = CookieJar()
+        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+        response = opener.open(res)
+        raw_response = response.read().decode(my_char, errors='ignore')
         return raw_response
 
     @staticmethod

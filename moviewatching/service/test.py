@@ -23,3 +23,7 @@ def line_file_test():
 
 
 print(line_file_test())
+import random
+
+search_id = random.randint(0, 100) % 5
+print(search_id)

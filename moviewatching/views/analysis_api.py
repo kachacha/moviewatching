@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-__filename__ = "search_api.py"
+__filename__ = "analysis_api.py"
 __author__ = "worker name."
 __version__ = "v0.* - for your version."
-__data__ = "2021/12/10"
-__time__ = "19:35:00"
+__data__ = "2021/12/13"
+__time__ = "17:45:00"
 __email__ = "****@***.com"
 __status__ = "Development"
 __message__ = "Your writing completion status and other information can be written here"
@@ -17,10 +17,9 @@ from flask_restx import Resource, Namespace, fields
 
 from ..config import aiqiyi_base_search_url, aiqiyi_more_search_url, qq_base_search_url, qq_more_search_url, \
     aiqiyi_headers, qq_headers
-from ..service.iqiyi_service.crawl import Crawl as IQiYiCrawl
-from ..service.qq_service.crawl import Crawl as QqCrawl
+from ..service.analysis_uri import AnalysisUri
 
-api = Namespace('Search Api', description='获取视频搜索信息接口')
+api = Namespace('Analysis Api', description='vip解析链接管理接口')
 
 
 @unique
@@ -34,15 +33,15 @@ class Params(fields.Raw):
         return {"params": {}}
 
 
-class SearchModel(Params):
+class AnalysisModel(Params):
 
     #  # 链接构造
     @staticmethod
-    def get_request():
+    def get_random_one():
         get_parser = api.parser()
-        get_parser.add_argument('s_type', type=str, help='搜索平台', required=True, default='')
-        get_parser.add_argument('s_word', type=str, help='搜索关键词', required=False, default='auto')
-        get_parser.add_argument('page', type=int, help='页数', required=True, default=1)
+        # get_parser.add_argument('s_type', type=str, help='搜索平台', required=True, default='')
+        # get_parser.add_argument('s_word', type=str, help='搜索关键词', required=False, default='auto')
+        # get_parser.add_argument('page', type=int, help='页数', required=True, default=1)
         return get_parser
 
     @staticmethod
@@ -51,14 +50,13 @@ class SearchModel(Params):
         return parser
 
 
-@api.route('/search')
-class SearchApi(Resource):
+@api.route('/analysis')
+class AnalysisApi(Resource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.iqiyi_crawl = IQiYiCrawl()
-        self.qq_crawl = QqCrawl()
+        self.analysis_uri = AnalysisUri()
 
-    @api.expect(SearchModel.get_request())
+    @api.expect(AnalysisModel.get_random_one())
     def get(self):
         s_type = request.args.get('s_type', "qq", str)
         s_word = request.args.get('s_word', "", str)
@@ -79,7 +77,20 @@ class SearchApi(Resource):
         return {"code": 100, "message": "SUCCESS", "data": iqiyi_list} if \
             iqiyi_list else {"code": -100, "message": "fail get search page."}
 
-    @api.expect(SearchModel.post_form_request())
+    @api.expect(AnalysisModel.post_form_request())
     @api.doc(params={"action": "方法"})
     def post(self):
         return jsonify({'message': 'successful crawl news.'})
+
+
+@api.route('/analysis-plus')
+class AnalysisPlusApi(Resource):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.analysis_uri = AnalysisUri()
+
+    @api.expect(AnalysisModel.get_random_one())
+    def get(self):
+        get_analysis = self.analysis_uri.get_random_one()
+        return {"code": 100, "message": "SUCCESS", "data": get_analysis} if \
+            get_analysis else {"code": -100, "message": "fail get random analysis uri."}
