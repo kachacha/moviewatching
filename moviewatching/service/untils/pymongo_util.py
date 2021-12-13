@@ -27,7 +27,7 @@ class PyMongoUtil:
         client = MongoClient(uri)
         self.db = client[db]  # 数据库
         self.collection = self.db[collection]  # 表
-        print(uri, db, collection)
+        # print(uri, db, collection)
         if db not in client.list_database_names():
             print("数据库不存在！")
         if collection not in self.db.list_collection_names():
@@ -219,14 +219,14 @@ class PyMongoUtil:
         except Exception as e:
             return str(e)
 
-    def find_one(self, *args, **kwargs):
+    def find_one(self, args, kwargs):
         """
         按条件查询单个doc,如果传入集合为空将返回默认数据
         :param args: 指定字段显示
         :param kwargs:  查询条件
         :return:
         """
-        result_obj = self.collection.find_one(kwargs, args)
+        result_obj = self.collection.find_one(args, kwargs)
         return result_obj
 
     def find_conditions(self, limit=0, **kwargs):

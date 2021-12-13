@@ -32,3 +32,28 @@ class Production(Base):
 
     CREAT_PROJECT = "http://team-cooperation.apps.zylliondata.local/api/v1/gitlab/create"  # gitlab 创建项目链接
     URL_BUILDER_API = "http://url-builder.edge.zylliondata.local/api/v1/crawl/url-builder"  # 构造链接请求
+
+
+if __name__ == '__main__':
+    aaa = [
+        # {"name": "解析1", "url": "https://api.sigujx.com/jx/?url=", "selected": True},
+        # {'name': "解析2", "url": "http://okjx.cc/?url=", "selected": True},
+        {"name": 2, "url": "https://www.administratorw.com/video.php?url=", "selected": True},
+        {"name": 3, "url": "https://jx.618g.com/?url=", "selected": True},
+        {"name": 4, "url": "http://17kyun.com/api.php?url=", "selected": True},
+        {"name": 5, "url": "https://jx.ejiafarm.com/dy.php?url=", "selected": True},
+        {"name": 6, "url": "https://www.8090.la/8090/?url=", "selected": True}
+    ]
+    from pymongo import MongoClient
+
+    client = MongoClient("mongodb://127.0.0.1:27017/")
+    db = client["VideoPlus"]  # 数据库
+    collection = db["analysis_uri"]  # 表
+    for one in aaa:
+        save = {
+            "id": one["name"],
+            "uri": one["url"],
+            "selected": True
+        }
+        print(save)
+        collection.insert_one(save)

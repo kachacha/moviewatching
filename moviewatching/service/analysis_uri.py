@@ -40,9 +40,11 @@ class AnalysisUri:
         :return:
         """
         _count = self.analysis_collection.__len__()
-        search_id = random.randint(0, 100) % _count
-        print(self.analysis_collection.find_one({"id": search_id}, {"_id": 0}))
-        return self.analysis_collection.find_one({"id": search_id}, {"_id": 0})
+        search_id = random.randint(1, _count) % (_count + 1)
+        # search_dict = {"id": search_id}
+        # aaa = self.analysis_collection.find_one(search_dict, {"_id": 0})
+        # print(aaa)
+        return self.analysis_collection.find_one({"id": search_id, "selected": True}, {"_id": 0})
 
     def get_all(self):
         return self.analysis_collection.find_all()

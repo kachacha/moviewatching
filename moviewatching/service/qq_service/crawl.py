@@ -55,7 +55,6 @@ class Crawl:
             for _a in a_list:
                 pattern = re.compile(u'https://v.qq.com/x/[^\s]*.html')
                 href_url = pattern.search(str(_a.get("href")))
-                print(href_url)
                 if href_url and href_url[0] not in set_href_list:
                     set_href_list.append(href_url[0])
                     movie_list.append({"uri": href_url[0],
