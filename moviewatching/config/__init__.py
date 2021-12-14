@@ -21,6 +21,7 @@ aiqiyi_headers = {
 }
 
 # 腾讯视频相关配置
+"https://m.v.qq.com/search.html?keyWord=%E5%8D%97"
 qq_base_search_url = "https://v.qq.com/x/search/?q={0}"  # 第一页
 qq_more_search_url = "https://v.qq.com/x/search/?q={0}&cur={1}"  # 第n页
 qq_headers = {

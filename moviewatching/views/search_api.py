@@ -67,7 +67,11 @@ class SearchApi(Resource):
             base_url = aiqiyi_more_search_url if page > 1 else aiqiyi_base_search_url
             headers = aiqiyi_headers
             iqiyi_list = self.iqiyi_crawl.crawl_iqiyi_list(base_url, s_word, headers, page)
-        elif s_type.__eq__("qq"):
+        elif s_type.__eq__("w_qq") or s_type.__eq__("i_qq"):
+            base_url = qq_more_search_url if page > 1 else qq_base_search_url
+            headers = qq_headers
+            iqiyi_list = self.qq_crawl.crawl_qq_list(base_url, s_word, headers, page)
+        elif s_type.__eq__("m_qq"):
             base_url = qq_more_search_url if page > 1 else qq_base_search_url
             headers = qq_headers
             iqiyi_list = self.qq_crawl.crawl_qq_list(base_url, s_word, headers, page)
