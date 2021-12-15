@@ -11,7 +11,7 @@ __message__ = "Your writing completion status and other information can be writt
 __update__ = "What you think can be updated and optimized can be written here"
 
 # 爱奇艺视频相关配置
-iqiyi_base_search_url = "https://so.iqiyi.com/so/q_{0}?source=history&refersource=lib&sr=741573544309"  # 第一页
+iqiyi_base_search_url = "https://so.iqiyi.com/so/q_{0}_ctg__t_0_p_1_qc_0_rd__site_iqiyi_m_1_bitrate__af_0"  # 第一页
 iqiyi_more_search_url = "https://so.iqiyi.com/so/q_{0}_ctg__t_0_page_{1}_p_1_qc_0_rd__site_iqiyi_m_1_bitrate__af_0"  # 第n页
 iqiyi_headers = {
     # 'Accept-Encoding': 'gzip, deflate, br',

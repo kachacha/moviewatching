@@ -38,6 +38,7 @@ class Crawl:
                 return [], ""
         try:
             get_html_res = BeautifulSoup(get_html_res, 'html5lib')
+            qy_search_main = get_html_res.find('div', class_='qy-search-main')
             layout_main = get_html_res.find('div', class_='layout-main')
             layout_main.find("div", class_='search-container-filter').decompose()
             layout_main.find("div", class_='qy-search-top-tips').decompose()
@@ -57,7 +58,7 @@ class Crawl:
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
             return [], ""
         # print(movie_list)
-        return movie_list, ""
+        return movie_list, qy_search_main.__str__()
 
     def crawl_m_iqiyi_list(self, base_url: str, s_word: str, headers: dict) -> tuple:
         p_s_word = quote(s_word if s_word else "")
