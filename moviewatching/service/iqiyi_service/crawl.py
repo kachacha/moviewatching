@@ -29,13 +29,13 @@ class Crawl:
         爬取解析相关
         """
 
-    def crawl_iqiyi_list(self, base_url: str, s_word: str, headers: dict, page=1) -> list:
+    def crawl_iqiyi_list(self, base_url: str, s_word: str, headers: dict, page=1) -> tuple:
         p_s_word = quote(s_word if s_word else "")
         get_html_res = self.request_util.requests_t(base_url.format(p_s_word, page), headers)
         if not get_html_res:
             get_html_res = self.request_util.urlopen_url(base_url.format(p_s_word, page))
             if not get_html_res:
-                return []
+                return [], ""
         try:
             get_html_res = BeautifulSoup(get_html_res, 'html5lib')
             layout_main = get_html_res.find('div', class_='layout-main')
@@ -55,9 +55,27 @@ class Crawl:
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
-            return []
+            return [], ""
         # print(movie_list)
-        return movie_list
+        return movie_list, ""
+
+    def crawl_m_iqiyi_list(self, base_url: str, s_word: str, headers: dict) -> tuple:
+        p_s_word = quote(s_word if s_word else "")
+        get_html_res = self.request_util.requests_t(base_url.format(p_s_word), headers)
+        if not get_html_res:
+            get_html_res = self.request_util.urlopen_url(base_url.format(p_s_word))
+            if not get_html_res:
+                return "", ""
+        try:
+            get_html_res = BeautifulSoup(get_html_res, 'html5lib')
+            div_app_id = get_html_res.find("div", id="app")
+            # print(div_app_id)
+        except Exception as e:
+            logging.warning(
+                "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
+            return "", ""
+        # print(movie_list)
+        return "", div_app_id.__str__()
 
 
 if __name__ == '__main__':

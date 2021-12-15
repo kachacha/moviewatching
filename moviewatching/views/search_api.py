@@ -15,8 +15,8 @@ from enum import Enum, unique
 from flask import request, jsonify, make_response
 from flask_restx import Resource, Namespace, fields
 
-from ..config import aiqiyi_base_search_url, aiqiyi_more_search_url, qq_base_search_url, qq_more_search_url, \
-    aiqiyi_headers, qq_headers
+from ..config import iqiyi_base_search_url, iqiyi_more_search_url, qq_base_search_url, qq_more_search_url, \
+    iqiyi_headers, qq_headers, iqiyi_m_header, iqiyi_m_search
 from ..service.iqiyi_service.crawl import Crawl as IQiYiCrawl
 from ..service.qq_service.crawl import Crawl as QqCrawl
 
@@ -63,25 +63,29 @@ class SearchApi(Resource):
         s_type = request.args.get('s_type', "qq", str)
         s_word = request.args.get('s_word', "", str)
         page = request.args.get('page', 1, int)
-        if s_type.__eq__("iqiyi"):
-            base_url = aiqiyi_more_search_url if page > 1 else aiqiyi_base_search_url
-            headers = aiqiyi_headers
-            iqiyi_list = self.iqiyi_crawl.crawl_iqiyi_list(base_url, s_word, headers, page)
+        if s_type.__eq__("w_iqiyi") or s_type.__eq__("i_iqiyi"):
+            base_url = iqiyi_more_search_url if page > 1 else iqiyi_base_search_url
+            headers = iqiyi_headers
+            html_a_list, page_html = self.iqiyi_crawl.crawl_iqiyi_list(base_url, s_word, headers, page)
+        elif s_type.__eq__("m_iqiyi"):
+            base_url = iqiyi_m_search
+            headers = iqiyi_m_header
+            html_a_list, page_html = self.iqiyi_crawl.crawl_m_iqiyi_list(base_url, s_word, headers)
         elif s_type.__eq__("w_qq") or s_type.__eq__("i_qq"):
             base_url = qq_more_search_url if page > 1 else qq_base_search_url
             headers = qq_headers
-            iqiyi_list = self.qq_crawl.crawl_qq_list(base_url, s_word, headers, page)
+            html_a_list, page_html = self.qq_crawl.crawl_qq_list(base_url, s_word, headers, page)
         elif s_type.__eq__("m_qq"):
             base_url = qq_more_search_url if page > 1 else qq_base_search_url
             headers = qq_headers
-            iqiyi_list = self.qq_crawl.crawl_qq_list(base_url, s_word, headers, page)
+            html_a_list, page_html = self.qq_crawl.crawl_qq_list(base_url, s_word, headers, page)
         else:
             return make_response(jsonify({'code': -1, 'message': 'not have search type.'}), 400)
         # if not base_url:
         #     return False
 
-        return {"code": 100, "message": "SUCCESS", "data": iqiyi_list} if \
-            iqiyi_list else {"code": -100, "message": "fail get search page."}
+        return {"code": 100, "message": "SUCCESS", "data": html_a_list, "page_html": page_html} if \
+            html_a_list or page_html else {"code": -100, "message": "fail get search page."}
 
     @api.expect(SearchModel.post_form_request())
     @api.doc(params={"action": "方法"})

@@ -9,7 +9,7 @@ __date__ = "2019-09-23"
 from enum import Enum, unique
 
 from flask import request, jsonify, make_response
-from flask_restplus import Resource, Namespace, fields
+from flask_restx import Resource, Namespace, fields
 
 from ..service.translate_baidu import TranslateBaidu
 from ..service.translate_bing import TranslateBing

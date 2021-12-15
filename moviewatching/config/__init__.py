@@ -11,17 +11,22 @@ __message__ = "Your writing completion status and other information can be writt
 __update__ = "What you think can be updated and optimized can be written here"
 
 # 爱奇艺视频相关配置
-aiqiyi_base_search_url = "https://so.iqiyi.com/so/q_{0}?source=history&refersource=lib&sr=741573544309"  # 第一页
-aiqiyi_more_search_url = "https://so.iqiyi.com/so/q_{0}_ctg__t_0_page_{1}_p_1_qc_0_rd__site_iqiyi_m_1_bitrate__af_0"  # 第n页
-aiqiyi_headers = {
+iqiyi_base_search_url = "https://so.iqiyi.com/so/q_{0}?source=history&refersource=lib&sr=741573544309"  # 第一页
+iqiyi_more_search_url = "https://so.iqiyi.com/so/q_{0}_ctg__t_0_page_{1}_p_1_qc_0_rd__site_iqiyi_m_1_bitrate__af_0"  # 第n页
+iqiyi_headers = {
     # 'Accept-Encoding': 'gzip, deflate, br',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
     'Host': 'so.iqiyi.com',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36'
 }
+iqiyi_m_search = "https://m.iqiyi.com/search.html?key={0}"
+iqiyi_m_header = {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    'sec-ch-ua-platform': 'Android',
+    'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36'
+}
 
 # 腾讯视频相关配置
-"https://m.v.qq.com/search.html?keyWord=%E5%8D%97"
 qq_base_search_url = "https://v.qq.com/x/search/?q={0}"  # 第一页
 qq_more_search_url = "https://v.qq.com/x/search/?q={0}&cur={1}"  # 第n页
 qq_headers = {
@@ -40,6 +45,13 @@ qq_headers = {
     "sec-fetch-user": "?1",
     "upgrade-insecure-requests": "1",
     "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
+}
+qq_m_search = "https://m.v.qq.com/search.html?keyWord={0}"
+qq_m_header = {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+    'sec-ch-ua-platform': 'Android',
+    'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36'
 }
 
 # 优酷视频相关配置

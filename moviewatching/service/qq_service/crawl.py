@@ -29,13 +29,13 @@ class Crawl:
         爬取解析相关
         """
 
-    def crawl_qq_list(self, base_url: str, s_word: str, headers: dict, page=1) -> list:
+    def crawl_qq_list(self, base_url: str, s_word: str, headers: dict, page=1) -> tuple:
         p_s_word = quote(s_word if s_word else "")
         # get_html_res = self.request_util.requests_t(base_url.format(p_s_word, page), headers)
         # if not get_html_res:
         get_html_res = self.request_util.urlopen_set_chardet_url(base_url.format(p_s_word, page), "UTF-8")
         if not get_html_res:
-            return []
+            return [], ""
         try:
             get_html_res = BeautifulSoup(get_html_res, 'html5lib')
             layout_main = get_html_res.find('div', class_='wrapper_main')
@@ -63,9 +63,9 @@ class Crawl:
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
-            return []
+            return [], ""
         # print(movie_list)
-        return movie_list
+        return movie_list, ""
 
 
 if __name__ == '__main__':

@@ -15,8 +15,8 @@ from enum import Enum, unique
 from flask import request, jsonify, make_response
 from flask_restx import Resource, Namespace, fields
 
-from ..config import aiqiyi_base_search_url, aiqiyi_more_search_url, qq_base_search_url, qq_more_search_url, \
-    aiqiyi_headers, qq_headers
+from ..config import iqiyi_base_search_url, iqiyi_more_search_url, qq_base_search_url, qq_more_search_url, \
+    iqiyi_headers, qq_headers
 from ..service.analysis_uri import AnalysisUri
 
 api = Namespace('Analysis Api', description='vip解析链接管理接口')
@@ -62,8 +62,8 @@ class AnalysisApi(Resource):
         s_word = request.args.get('s_word', "", str)
         page = request.args.get('page', 1, int)
         if s_type.__eq__("iqiyi"):
-            base_url = aiqiyi_more_search_url if page > 1 else aiqiyi_base_search_url
-            headers = aiqiyi_headers
+            base_url = iqiyi_more_search_url if page > 1 else iqiyi_base_search_url
+            headers = iqiyi_headers
             iqiyi_list = self.iqiyi_crawl.crawl_iqiyi_list(base_url, s_word, headers, page)
         elif s_type.__eq__("qq"):
             base_url = qq_more_search_url if page > 1 else qq_base_search_url

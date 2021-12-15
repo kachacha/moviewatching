@@ -9,7 +9,7 @@ __date__ = "2019-09-23"
 from flask import Flask, render_template
 from flask_cors import CORS
 
-from moviewatching.config.config import Development, Production
+from .config.config import Development, Production
 
 
 def create_app(test_config=None):
