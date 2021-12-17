@@ -69,8 +69,8 @@ class Crawl:
                 return "", ""
         try:
             get_html_res = BeautifulSoup(get_html_res, 'html5lib')
-            div_app_id = get_html_res.find("div", id="app")
-            # print(div_app_id)
+            div_app_id = get_html_res.find("div", class_="m-sideBar").parent
+            print(div_app_id)
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))

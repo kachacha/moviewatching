@@ -16,9 +16,11 @@ from flask import request, jsonify, make_response
 from flask_restx import Resource, Namespace, fields
 
 from ..config import iqiyi_base_search_url, iqiyi_more_search_url, qq_base_search_url, qq_more_search_url, \
-    iqiyi_headers, qq_headers, iqiyi_m_header, iqiyi_m_search
+    iqiyi_headers, qq_headers, iqiyi_m_header, iqiyi_m_search, qq_m_header, qq_m_search, youku_base_search_url, \
+    youku_more_search_url, youku_headers, youku_m_headers
 from ..service.iqiyi_service.crawl import Crawl as IQiYiCrawl
 from ..service.qq_service.crawl import Crawl as QqCrawl
+from ..service.youku_service.crawl import Crawl as YouKuCrawl
 
 api = Namespace('Search Api', description='获取视频搜索信息接口')
 
@@ -57,6 +59,7 @@ class SearchApi(Resource):
         super().__init__(*args, **kwargs)
         self.iqiyi_crawl = IQiYiCrawl()
         self.qq_crawl = QqCrawl()
+        self.youku_crawl = YouKuCrawl()
 
     @api.expect(SearchModel.get_request())
     def get(self):
@@ -76,9 +79,13 @@ class SearchApi(Resource):
             headers = qq_headers
             html_a_list, page_html = self.qq_crawl.crawl_qq_list(base_url, s_word, headers, page)
         elif s_type.__eq__("m_qq"):
-            base_url = qq_more_search_url if page > 1 else qq_base_search_url
-            headers = qq_headers
-            html_a_list, page_html = self.qq_crawl.crawl_qq_list(base_url, s_word, headers, page)
+            base_url = qq_m_search
+            headers = qq_m_header
+            html_a_list, page_html = self.qq_crawl.crawl_m_qq_list(base_url, s_word, headers)
+        elif s_type.__eq__("w_youku") or s_type.__eq__("i_youku") or s_type.__eq__("m_youku"):
+            base_url = youku_more_search_url if page > 1 else youku_base_search_url
+            headers = youku_m_headers if s_type.__eq__("m_youku") else youku_headers
+            html_a_list, page_html = self.youku_crawl.crawl_youku_list(base_url, s_word, headers, page)
         else:
             return make_response(jsonify({'code': -1, 'message': 'not have search type.'}), 400)
         # if not base_url:

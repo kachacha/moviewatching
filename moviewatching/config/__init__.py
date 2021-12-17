@@ -55,11 +55,19 @@ qq_m_header = {
 }
 
 # 优酷视频相关配置
-youku_base_search_url = ""
-youku_more_search_url = ""
+youku_base_search_url = "https://so.youku.com/search_video/q_{0}"
+youku_more_search_url = "https://so.youku.com/search_video/q_{0}"
 youku_headers = {
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-    'Host': 'so.iqiyi.com',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.92 Safari/537.36'
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "accept-encoding": "gzip, deflate, br", "accept-language": "zh-CN,zh;q=0.9,en;q=0.8", "cache-control": "max-age=0",
+    "cookie": "ctoken=maGkN_lSo_gGxm8kp31HhJMo; __ysuid=1637049872853Hax; __ayft=1637049872854; UM_distinctid=17d27c6bce5893-01f6f7e443f322-57b1a33-1fa400-17d27c6bce6ce7; __arycid=dm-1-00; __arcms=dm-1-00; __ayvstp=13; modalFrequency={\"UUID\":\"10\"}; __ayscnt=3; __aysid=16397326736994me; xlly_s=1; youku_history_word=%5B%22%25E8%259C%2598%25E8%259B%259B%25E4%25BE%25A0%22%2C%22%25E7%25AA%2581%25E5%259B%25B4%22%2C%22a%22%5D; redMarkRead=1; cna=qERDGtvjSXgCATohoLO6NQ3F; P_ck_ctl=C6374122F502629FA5B2B956E7CB1BB0; __arpvid=16397353363944OQgsv-1639735336404; __aypstp=22; __ayspstp=9; _m_h5_tk=6521ae5c80e0f4d0b59879dbc4a575cc_1639742075214; _m_h5_tk_enc=9ee27384c102f1508c745360ef689432; l=eBE9MFungpvjDNhQBOfwourza77tJIRVguPzaNbMiOCP_vBBjaf5W6Qp3ux6CnGRh6yyR3ulK9k3BeYBqsj-FCB5RfVoJ2Hmn; tfstk=cMTPBnclJ43rtXQIXa_EVKQTVnR5CfOX6W1cq3lYgbotmYn5CQ5mJJCcF_QCWk3dq; isg=BLW1cJwHOMjNfFzUdky2QBoqxDFvMmlEeU4wZDfaSSxsDtcA_4DsFWPMXPQ4ToH8",
+    "sec-ch-ua": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"",
+    "sec-ch-ua-mobile": "?0", "sec-ch-ua-platform": "\"Windows\"", "sec-fetch-dest": "document",
+    "sec-fetch-mode": "navigate", "sec-fetch-site": "none", "sec-fetch-user": "?1", "upgrade-insecure-requests": "1",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"}
+youku_m_headers = {
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
+    'sec-ch-ua-platform': 'Android',
+    'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36'
 }

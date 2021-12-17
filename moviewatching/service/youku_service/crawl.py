@@ -29,28 +29,28 @@ class Crawl:
         爬取解析相关
         """
 
-    def crawl_qq_list(self, base_url: str, s_word: str, headers: dict, page=1) -> tuple:
+    def crawl_youku_list(self, base_url: str, s_word: str, headers: dict, page=1) -> tuple:
         p_s_word = quote(s_word if s_word else "")
-        # get_html_res = self.request_util.requests_t(base_url.format(p_s_word, page), headers)
-        # if not get_html_res:
-        get_html_res = self.request_util.urlopen_set_chardet_url(base_url.format(p_s_word, page), "UTF-8")
+        get_html_res = self.request_util.requests_t(base_url.format(p_s_word, page), headers)
         if not get_html_res:
-            return [], ""
+            get_html_res = self.request_util.urlopen_set_chardet_url(base_url.format(p_s_word, page), "UTF-8")
+            if not get_html_res:
+                return [], ""
         try:
+            print(get_html_res)
             get_html_res = BeautifulSoup(get_html_res, 'html5lib')
-            search_container = get_html_res.find('div', id='search_container')
-            layout_main = get_html_res.find('div', class_='wrapper_main')
+            search_container = get_html_res.find('div', class_='content_2M-pO')
             try:
-                layout_main.find("div", class_='mod_filter_box').decompose()  # 去除头
-                layout_main.find("div", class_='result_relative').decompose()  # 去除关键词搜索
-                layout_main.find("div", class_='mod_pages').decompose()  # 去除页数
-                layout_main.find("a", class_='desc_more').decompose()  # 去除杂项
-                layout_main.find("a", class_='tip_download __lite_hide__').decompose()  # 去除杂项
+                search_container.find("div", class_='mod_filter_box').decompose()  # 去除头
+                search_container.find("div", class_='result_relative').decompose()  # 去除关键词搜索
+                search_container.find("div", class_='mod_pages').decompose()  # 去除页数
+                search_container.find("a", class_='desc_more').decompose()  # 去除杂项
+                search_container.find("a", class_='tip_download __lite_hide__').decompose()  # 去除杂项
             except Exception as e:
                 logging.warning(
                     "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
                 pass
-            a_list = layout_main.findAll("a")
+            a_list = search_container.findAll("a")
             movie_list = []
             set_href_list = []
             for _a in a_list:
@@ -68,7 +68,7 @@ class Crawl:
         # print(movie_list)
         return movie_list, search_container.__str__()
 
-    def crawl_m_qq_list(self, base_url: str, s_word: str, headers: dict) -> tuple:
+    def crawl_m_youku_list(self, base_url: str, s_word: str, headers: dict) -> tuple:
         p_s_word = quote(s_word if s_word else "")
         # get_html_res = self.request_util.requests_t(base_url.format(p_s_word, page), headers)
         # if not get_html_res:
