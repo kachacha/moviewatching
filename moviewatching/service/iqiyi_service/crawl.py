@@ -45,20 +45,27 @@ class Crawl:
             a_list = layout_main.findAll("a")
             movie_list = []
             set_href_list = []
+            pattern = re.compile(u'www.iqiyi.com/v_[^\s]*.html*')
             for _a in a_list:
-                pattern = re.compile(u'www.iqiyi.com/v_[^\s]*.html')
                 href_url = pattern.search(str(_a))
                 if href_url and href_url[0] not in set_href_list:
                     set_href_list.append(href_url[0])
                     movie_list.append({"uri": href_url[0],
                                        "html": str(_a).replace("//" + href_url[0],
                                                                "./play?play_uri=" + href_url[0])})
+
+            to_href_url = pattern.findall(qy_search_main.__str__())
+            set_href_list2 = []
+            for one_href in to_href_url:
+                if one_href not in set_href_list2:
+                    set_href_list2.append(one_href)
+                    qy_search_main = qy_search_main.__str__().replace("//" + one_href, "./play?play_uri=//" + one_href)
+
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
             return [], ""
-        # print(movie_list)
-        return movie_list, qy_search_main.__str__()
+        return movie_list, qy_search_main
 
     def crawl_m_iqiyi_list(self, base_url: str, s_word: str, headers: dict) -> tuple:
         p_s_word = quote(s_word if s_word else "")
@@ -70,7 +77,13 @@ class Crawl:
         try:
             get_html_res = BeautifulSoup(get_html_res, 'html5lib')
             div_app_id = get_html_res.find("div", class_="m-sideBar").parent
-            print(div_app_id)
+            pattern = re.compile(u'/v_[^\s]*.html*')
+            to_href_url = pattern.findall(div_app_id.__str__())
+            set_href_list2 = []
+            for one_href in to_href_url:
+                if one_href not in set_href_list2:
+                    set_href_list2.append(one_href)
+                    div_app_id = div_app_id.__str__().replace(one_href, "./play?play_uri=//www.iqiyi.com" + one_href)
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))

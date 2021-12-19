@@ -21,7 +21,7 @@ class AnalysisUri:
 
     def __init__(self):
         self.analysis_collection = PyMongoUtil(
-            uri=current_app.config.get("MONGO_URI"),
+            uri=current_app.config.get("MONGODB_URI"),
             db=current_app.config.get("MONGODB_DB"),
             collection=current_app.config.get("MONGODB_TABLE_ANALYSIS_URI")
         )

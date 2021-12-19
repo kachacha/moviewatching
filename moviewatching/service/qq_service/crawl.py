@@ -53,14 +53,20 @@ class Crawl:
             a_list = layout_main.findAll("a")
             movie_list = []
             set_href_list = []
+            pattern = re.compile(u'https://v.qq.com/x/[^\s]*.html*')
             for _a in a_list:
-                pattern = re.compile(u'https://v.qq.com/x/[^\s]*.html')
                 href_url = pattern.search(str(_a.get("href")))
                 if href_url and href_url[0] not in set_href_list:
                     set_href_list.append(href_url[0])
                     movie_list.append({"uri": href_url[0],
-                                       "html": str(_a).replace(href_url[0],
-                                                               "./play?play_uri=" + href_url[0])})
+                                       "html": str(_a).replace(href_url[0], "./play?play_uri=" + href_url[0])})
+
+            to_href_url = pattern.findall(search_container.__str__())
+            set_href_list2 = []
+            for one_href in to_href_url:
+                if one_href not in set_href_list2:
+                    set_href_list2.append(one_href)
+                    search_container = search_container.__str__().replace(one_href, "./play?play_uri=" + one_href)
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
@@ -91,14 +97,20 @@ class Crawl:
             a_list = result.findAll("a")
             movie_list = []
             set_href_list = []
+            pattern = re.compile(u'http[s]{0,1}://m.v.qq.com/cover/m/[^\s]*.html*')
             for _a in a_list:
-                pattern = re.compile(u'https://v.qq.com/x/[^\s]*.html')
                 href_url = pattern.search(str(_a.get("href")))
                 if href_url and href_url[0] not in set_href_list:
                     set_href_list.append(href_url[0])
                     movie_list.append({"uri": href_url[0],
-                                       "html": str(_a).replace(href_url[0],
-                                                               "./play?play_uri=" + href_url[0])})
+                                       "html": str(_a).replace(href_url[0], "./play?play_uri=" + href_url[0])})
+
+            to_href_url = pattern.findall(result.__str__())
+            set_href_list2 = []
+            for one_href in to_href_url:
+                if one_href not in set_href_list2:
+                    set_href_list2.append(one_href)
+                    result = result.__str__().replace(one_href, "./play?play_uri=" + one_href)
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))

@@ -12,12 +12,17 @@ __update__ = "What you think can be updated and optimized can be written here"
 
 import pprint
 
-# import motor.motor_asyncio
 from pymongo import MongoClient
 
 
+# MONGODB_USERNAME = os.environ.get("MONGODB_DB", "zfeno")
+# MONGODB_PASSWORD = os.environ.get("MONGODB_DB", "jiehuai.qing")
+# MONGODB_URI = os.environ.get("MONGO_URI", "mongodb://{0}:{1}@49.234.34.225:27017/"
+#                              .format(MONGODB_USERNAME, MONGODB_PASSWORD))
+
+
 class PyMongoUtil:
-    def __init__(self, uri='mongodb://localhost:27017/', db='VideoPlus', collection='test'):
+    def __init__(self, uri="mongodb://127.0.0.1:27017/", db='VideoPlus', collection='analysis_uri'):
         """初始化MongoDB数据库和表的信息并连接数据库
 
         :param uri: 连接名
@@ -28,10 +33,13 @@ class PyMongoUtil:
         self.db = client[db]  # 数据库
         self.collection = self.db[collection]  # 表
         # print(uri, db, collection)
-        if db not in client.list_database_names():
-            print("数据库不存在！")
-        if collection not in self.db.list_collection_names():
-            print("表不存在！")
+        try:
+            if db not in client.list_database_names():
+                print("数据库不存在！")
+            if collection not in self.db.list_collection_names():
+                print("表不存在！")
+        except Exception as e:
+            print("链接不到数据库：" + uri, "error:" + str(e))
 
     def __str__(self):
         """数据库基本信息"""
@@ -138,7 +146,7 @@ class PyMongoUtil:
         if old_document:
             result = self.collection.replace_one({'_id': _id}, new_doc)
             print('replaced %s document' % result.modified_count)
-            new_document = self.collection.find_one({'_id': _id})
+            # new_document = self.collection.find_one({'_id': _id})
             # print('document is now %s' % pprint.pformat(new_document))
             return {'status': 'ok', 'info': str(_id) + ':: replace ok !!!'}
         else:
@@ -209,7 +217,7 @@ class PyMongoUtil:
     def insert_one(self, **kwargs):
         """
         单条插入
-        :param new_doc:
+        :param kwargs:
         :return:
         """
         try:
@@ -244,5 +252,5 @@ class PyMongoUtil:
             cursor = self.collection.find(kwargs).sort('i').limit(limit).skip(0)
         return cursor.to_list(length=None)
 
-
-print(PyMongoUtil().count())
+# print(PyMongoUtil().count())
+# print(PyMongoUtil().find_all())
