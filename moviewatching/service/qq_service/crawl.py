@@ -59,14 +59,18 @@ class Crawl:
                 if href_url and href_url[0] not in set_href_list:
                     set_href_list.append(href_url[0])
                     movie_list.append({"uri": href_url[0],
-                                       "html": str(_a).replace(href_url[0], "./play?play_uri=" + href_url[0])})
+                                       "html": str(_a).replace(href_url[0],
+                                                               "javascript:toPlayMessage('" + href_url[0] + "')")})
 
             to_href_url = pattern.findall(search_container.__str__())
+            # todo 替换全局 target="_blank" 为空 否则点击跳转到另一个页面不播放了
+            search_container = search_container.__str__().replace('target="_blank"', '')
             set_href_list2 = []
             for one_href in to_href_url:
                 if one_href not in set_href_list2:
                     set_href_list2.append(one_href)
-                    search_container = search_container.__str__().replace(one_href, "./play?play_uri=" + one_href)
+                    search_container = search_container.__str__().replace(one_href,
+                                                                          "javascript:toPlayMessage('" + one_href + "')")
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))
@@ -103,14 +107,17 @@ class Crawl:
                 if href_url and href_url[0] not in set_href_list:
                     set_href_list.append(href_url[0])
                     movie_list.append({"uri": href_url[0],
-                                       "html": str(_a).replace(href_url[0], "./play?play_uri=" + href_url[0])})
+                                       "html": str(_a).replace(href_url[0],
+                                                               "javascript:toPlayMessage('" + href_url[0] + "')")})
 
             to_href_url = pattern.findall(result.__str__())
+            # todo 替换全局 target="_blank" 为空
+            result = result.__str__().replace('target="_blank"', '')
             set_href_list2 = []
             for one_href in to_href_url:
                 if one_href not in set_href_list2:
                     set_href_list2.append(one_href)
-                    result = result.__str__().replace(one_href, "./play?play_uri=" + one_href)
+                    result = result.__str__().replace(one_href, "javascript:toPlayMessage('" + one_href + "')")
         except Exception as e:
             logging.warning(
                 "{} -- {} - {}: {}".format(os.path.basename(__file__), __file__, sys._getframe().f_lineno, str(e)))

@@ -12,3 +12,7 @@ vips: [
         {name: "解析6", url: "https://jx.ejiafarm.com/dy.php?url=", selected: true},
         {name: "解析7", url: "https://www.8090.la/8090/?url=", selected: true}
     ],
+
+
+
+https://qimihe.com/?url=
