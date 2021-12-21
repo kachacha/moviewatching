@@ -12,7 +12,19 @@ vips: [
         {name: "解析6", url: "https://jx.ejiafarm.com/dy.php?url=", selected: true},
         {name: "解析7", url: "https://www.8090.la/8090/?url=", selected: true}
     ],
+<select class="form-control input-lg" id="jk">
+<option value="//z1.m1907.cn/?jx=">搜索影片名播放</option>
+<option value="//www.bavei.com/vip/?url=">①电视剧解析（推荐）</option>
+<option value="//www.bavei.com/vip1/?url=">②电影解析（推荐）</option>
+<option value="//www.bavei.com/vip/?url=">全网解析（双端高速）</option>
+<option value="//www.bavei.com/vip2/?url=">③视频解析（稳定）</option>
+<option style="color: red;" value="//www.bavei.com/vip4/?url=">④vip解析（高清）</option>
+<option style="color: red;" value="//www.bavei.com/vip3/?url=">智能解析（蓝光）</option>
 
+
+
+             视频地址
+             </select>
 
 
 https://qimihe.com/?url=
