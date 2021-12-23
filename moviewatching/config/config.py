@@ -12,6 +12,7 @@ class Development(Base):
     MONGODB_URI = "mongodb://127.0.0.1:27017/"
     MONGODB_PORT = 27017
     MONGODB_DB = "VideoPlus"
+    MONGODB_TABLE_VIDEO_INFO = "video_info"
     MONGODB_TABLE_ANALYSIS_URI = "analysis_uri"
     MONGODB_TABLE_PAGE = "page"
 
@@ -23,6 +24,7 @@ class Production(Base):
                                  "mongodb://{0}:{1}@49.234.34.225:27017/".format(MONGODB_USERNAME, MONGODB_PASSWORD))
     MONGODB_PORT = int(os.environ.get("MONGODB_PORT", 27017))
     MONGODB_DB = os.environ.get("MONGODB_DB", "VideoPlus")
+    MONGODB_TABLE_VIDEO_INFO = os.environ.get("MONGODB_TABLE_VIDEO_INFO", "video_info")
     MONGODB_TABLE_ANALYSIS_URI = os.environ.get("MONGODB_TABLE_ANALYSIS_URI", "analysis_uri")
     MONGODB_TABLE_PAGE = os.environ.get("MONGODB_TABLE_PAGE", "page")
 

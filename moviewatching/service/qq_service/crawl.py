@@ -10,21 +10,31 @@ __status__ = "Development"
 __message__ = "Your writing completion status and other information can be written here"
 __update__ = "What you think can be updated and optimized can be written here"
 
+import json
 import logging
 import os
 import re
 import sys
-from urllib.parse import quote
+from urllib.parse import quote, urlparse, parse_qs
 
 from bs4 import BeautifulSoup
+from flask import current_app
 
-from moviewatching.service.untils.request_utils import RequestsUtils
+from ..untils.pymongo_util import PyMongoUtil
+from ..untils.request_utils import RequestsUtils
 
 
 class Crawl:
 
     def __init__(self):
         self.request_util = RequestsUtils()
+        self.obtain_utils = ObtainUtils()
+
+        self.episode_collection = PyMongoUtil(
+            uri=current_app.config.get("MONGODB_URI"),
+            db=current_app.config.get("MONGODB_DB"),
+            collection=current_app.config.get("MONGODB_TABLE_VIDEO_INFO")
+        )
         """
         爬取解析相关
         """
@@ -119,7 +129,6 @@ class Crawl:
             set_href_list2 = []
             for one_href in to_href_url:
                 one_href = one_href.replace('"', "")
-                print(one_href)
                 if one_href not in set_href_list2:
                     set_href_list2.append(one_href)
                     # print(one_href)
@@ -132,8 +141,69 @@ class Crawl:
         # print(movie_list)
         return movie_list, result.__str__()
 
+    def crawl_episode(self, page_uri: str, headers: dict) -> dict:
+        "http://m.v.qq.com/cover/m/m441e3rjq9kwpsc.html?vid=h00415t94pe"  # 腾讯手机版uri
+        "https://v.qq.com/x/cover/m441e3rjq9kwpsc/b0041fx801u.html"  # 腾讯电脑版uri
+        if page_uri.__contains__("m.v.qq.com"):
+            page_id, episode_id = self.obtain_utils.get_page_id_and_episode_id(page_uri)
+            page_uri = "https://v.qq.com/x/cover/" + page_id + "/" + episode_id + ".html"
+        elif page_uri.__contains__("v.qq.com"):
+            pass
+        else:
+            return {}
+        get_html_res = self.request_util.urlopen_set_chardet_url(page_uri, "UTF-8")
+        if not get_html_res:
+            return {}
+        get_cover_info = self.obtain_utils.get_COVER_INFO(get_html_res)
+        if not get_cover_info:
+            return get_cover_info
+        get_cover_info["s_type"] = "qq"
+        # todo
+        # self.episode_collection.insert_one(**get_cover_info)
+        re_res_data_list = []
+        video_id = get_cover_info.get("id", "")
+        for index, one_cover in enumerate(get_cover_info.get("nomal_ids", [])):
+            re_res_data = {}
+            if one_cover.get("F", 0) == 4:
+                re_res_data["cover"] = "notice"
+            else:
+                re_res_data["cover"] = "positive"
+            re_res_data["label"] = "第" + (index + 1).__str__() + "集"
+            re_res_data["video_url"] = "https://v.qq.com/x/cover/" + video_id + "/" + one_cover.get("V", "") + ".html"
+            re_res_data_list.append(re_res_data)
+        return {"video_list": re_res_data_list}
+
+
+class ObtainUtils:
+
+    def __init__(self):
+        """
+        各个解析拆分回去值或内容方法
+        """
+
+    @staticmethod
+    def get_page_id_and_episode_id(page_uri) -> tuple:
+        result = urlparse(page_uri)
+        page_id = result.path.__str__().split("/")[-1].replace(".html", "")
+        query = parse_qs(result.query)
+        episode_id = query.get('vid', [""])[0]
+        return page_id, episode_id
+
+    @staticmethod
+    def get_COVER_INFO(html_res: str) -> dict:
+        get_cover_info = re.findall("var COVER_INFO = (.*?)var", html_res, re.S)
+        try:
+            get_cover_info_json = json.loads(get_cover_info[0])
+            if "id" not in get_cover_info_json.keys():
+                return {}
+        except IndexError as e:
+            return {}
+            # raise IndexError({"code": -101, "message": "获取集数失败！" + e.__str__()})
+        return get_cover_info_json
+
 
 if __name__ == '__main__':
+    print(ObtainUtils().crawl_episode("http://m.v.qq.com/cover/m/m441e3rjq9kwpsc.html?vid=h00415t94pe"))
     # 爱奇艺视频相关配置
     qq_base_search_url = "https://v.qq.com/x/search/?q={0}"  # 第一页
     qq_more_search_url = "https://v.qq.com/x/search/?q={0}&cur={1}"  # 第n页
@@ -154,4 +224,4 @@ if __name__ == '__main__':
         "upgrade-insecure-requests": "1",
         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
     }
-    print(Crawl().crawl_qq_list(qq_base_search_url, '速度与激情', qq_headers))
+    # print(Crawl().crawl_qq_list(qq_base_search_url, '速度与激情', qq_headers))
