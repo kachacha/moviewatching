@@ -113,7 +113,7 @@ class Crawl:
             a_list = result.findAll("a")
             movie_list = []
             set_href_list = []
-            pattern = re.compile(u'http[s]{0,1}://m.v.qq.com/cover/m/[^\s]*.html[^\s]*')
+            pattern = re.compile(u'http[s]{0,1}://m.v.qq.com/cover/[^\s]*/[^\s]*.html[^\s]*')
             for _a in a_list:
                 href_url = pattern.search(str(_a.get("href")))
                 if href_url and href_url[0] not in set_href_list:
